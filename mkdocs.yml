@@ -1,0 +1,14 @@
+site_name: Fiware Rancher
+repo_url: https://github.com/martel-innovate/Rancher
+site_description: Fiware Rancher Documentation
+docs_dir: 'docs'
+theme: readthedocs
+pages:
+    - Home: 'index.md'
+    - User Manual:
+        - 'Authenticating with Fiware': 'user/user.md'
+    - Installation & Administration Manual:
+        - 'Building Fiware Rancher': 'admin/admin.md'
+    - Code Repository: 'code_repo.md'
+    - Roadmap: 'roadmap.md'
+extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
