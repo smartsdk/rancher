@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -x
+
+cd "$(dirname "$0")"
+
+# Get Current Build Name in a possible breaking way
+TAG=${TAG:-$(awk '/CATTLE_RANCHER_SERVER_VERSION/{print $3; exit}' Dockerfile)}
+REPO=${REPO:-$(awk '/CATTLE_RANCHER_SERVER_IMAGE/{print $3; exit}' Dockerfile)}
+IMAGE=${REPO}:${TAG}
+
+# Tag the current build for our upload
+OUR_IMAGE="${CI_REGISTRY_IMAGE}"
+
+docker tag $IMAGE $OUR_IMAGE:$CI_COMMIT_SHA
+docker tag $IMAGE $OUR_IMAGE:$CI_COMMIT_REF_NAME
+docker tag $IMAGE $OUR_IMAGE:latest
+
+docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+docker push $OUR_IMAGE:$CI_COMMIT_SHA
+docker push $OUR_IMAGE:$CI_COMMIT_REF_NAME
+docker push $OUR_IMAGE:latest
