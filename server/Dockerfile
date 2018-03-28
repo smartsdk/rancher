@@ -33,7 +33,10 @@ ADD artifacts /usr/share/cattle
 ADD service /service
 ENV S6_SERVICE_DIR /service
 
-COPY target/*static.tar.gz /s6-statics/
+COPY download-target /usr/bin/
+RUN download-target
+
+RUN mkdir -p /s6-statics/ && cp target/*static.tar.gz /s6-statics/
 
 EXPOSE 8080
 ENV CATTLE_HOST_API_PROXY_MODE embedded
